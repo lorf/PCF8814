@@ -83,7 +83,7 @@ class PCF8814 {
 		void Putc(unsigned char c);
 		void PutcWide(unsigned char c);
 		void Print(const char * message);
-		void PrintF(char * message);
+		void PrintF(const char * message);
 		void PrintWide(char * message);
 		void GotoXY(uint8_t x = 0,uint8_t y = 0);
 		void Inverse(uint8_t mode);
@@ -91,7 +91,7 @@ class PCF8814 {
 		void Line  (uint8_t x1,uint8_t y1, uint8_t x2,uint8_t y2, uint8_t pixel_mode);
 		void Circle(uint8_t x, uint8_t y, uint8_t radius, uint8_t fill, uint8_t pixel_mode);
 		void Rect  (uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint8_t fill, uint8_t pixel_mode);
-		void Pict  (uint8_t x, uint8_t y, uint8_t * picture);
+		void Pict  (uint8_t x, uint8_t y, const uint8_t * picture);
 	private:
 		void GotoXY_pix(uint8_t x,uint8_t y);
 		uint8_t SPI_write(uint8_t cData);

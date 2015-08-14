@@ -47,11 +47,13 @@ PCF8814::PCF8814(uint8_t _LCD_SCLK, uint8_t _LCD_SDA, uint8_t _LCD_CS, uint8_t _
 	CS_LCD_SET;
 }
 
+#ifndef SOFT_SPI
 uint8_t PCF8814::SPI_write(uint8_t cData) {
 		SPDR = cData;
         while(!(SPSR & _BV(SPIF)));
         return SPDR;    
 }
+#endif
 //******************************************************************************
 // Передача байта (команды или данных) на LCD-контроллер
 //  mode: CMD_LCD_MODE - передаем команду (0)
@@ -239,7 +241,7 @@ void PCF8814::PrintWide(char * message)
 // Вывод строки символов на LCD-экран NOKIA 1100 в текущее место из программной памяти.
 // Если строка выходит за экран в текущей строке, то остаток переносится на следующую строку.
 //  message: указатель на строку символов в программной памяти. 0x00 - признак конца строки.
-void PCF8814::PrintF(char * message)
+void PCF8814::PrintF(const char * message)
 {
 	uint8_t data;
 	while (data=pgm_read_byte(message), data)
@@ -489,7 +491,7 @@ void PCF8814::Rect (uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint8_t fill
 //	y: 0..64  координата верхнего левого угла по вертикали
 //  picture: указатель на массив с монохромной картинкой в программной памяти, первые 2 байта указывают соответственно
 //			 размер картинки по горизонтали и вертикали
-void PCF8814::Pict  (uint8_t x, uint8_t y, uint8_t * picture)
+void PCF8814::Pict  (uint8_t x, uint8_t y, const uint8_t * picture)
 {
 	uint8_t pict_width = pgm_read_byte(&picture[0]);  // ширина спрайта в пикселах
 	uint8_t pict_height = pgm_read_byte(&picture[1]); // высота спрайта в пикселах
